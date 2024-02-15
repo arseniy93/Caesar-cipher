@@ -10,4 +10,10 @@ public final class ConsoleMenuConsts {
     public static final String ORIGINAL_EN = "original";
     public static final String CIPH_RU = "зашифрованного";
     public static final String CIPH_EN = "ciph";
+    public static final int ZIRO = 0;
+    public static final char TAB_N = '\n';
+    public static final char TAB_R = '\r';
+    public static final char SPACE = ' ';
+    public static final String RU = "ru";
+    public static final String EN = "en";
 }

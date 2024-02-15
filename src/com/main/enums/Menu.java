@@ -3,6 +3,9 @@ package com.main.enums;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import static com.constants.ConsoleMenuConsts.ORIGINAL_RU;
+import static com.constants.ConsoleMenuConsts.RU;
+import static com.constants.ConsoleMenuConsts.EN;
 
 public enum Menu {
     START(0, "HELP" ),
@@ -18,6 +21,7 @@ public enum Menu {
     TOUNCIPHWITHCOMMARU(3, "Расшифровка текста, метод перебора (брут форсе по запятой)" ),
     TOUNCIPHWITHSPACRU(4, "Расшифровка текста статистическим методом (самый частый  символ - пробел)" ),
     GETKEYRU(5, "Получение ключа. Сравниваются 2 текста: оригнал, зашифрованный" );
+    
 
 
 
@@ -35,29 +39,33 @@ public enum Menu {
     public static int chooseOption(String language,int number) {
 
         List<Menu> list = Arrays.asList(Menu.values());
-        if (number<0 || number>7){
-            if(language.equalsIgnoreCase("ru")){
+        if (number<0 || number>5){
+            if(language.equalsIgnoreCase(RU)){
                 System.out.println("Не существует такой опции, повторите заново");
             }
             else {
                 System.out.println("There isn't option, enter again");
             }
-           chooseOption(printChooseMenu(language),new Scanner(System.in).nextInt());
+
+          return chooseOption(printChooseMenu(language),new Scanner(System.in).nextInt());
         }
-       else if(language.equalsIgnoreCase("en") ){
-            for (int i = 0; i < list.size()/2; i++) {
-                if(number==list.get(i).number){
-                    return (list.get(i).number);
+        else{
+             if(language.equalsIgnoreCase(EN) ){
+                for (int i = 0; i < list.size()/2; i++) {
+                    if(number==list.get(i).number){
+                        return (list.get(i).number);
+                    }
+                }
+            }
+            else {
+                for (int i = list.size() / 2; i < list.size()  ; i++) {
+                    if(number==list.get(i).number){
+                        return(list.get(i).number);
+                    }
                 }
             }
         }
-        else if(language.equalsIgnoreCase("ru")){
-            for (int i = list.size() / 2; i < list.size()  ; i++) {
-                if(number==list.get(i).number){
-                    return(list.get(i).number);
-                }
-            }
-        }
+
 
 
         return 0;
@@ -65,12 +73,12 @@ public enum Menu {
 
     public static  String printChooseMenu(String chooseLanguage) {
         List<Menu> list = Arrays.asList(Menu.values());
-        if(chooseLanguage.equalsIgnoreCase("en")){
+        if(chooseLanguage.equalsIgnoreCase(EN)){
             for (int i = 0; i < list.size()/2; i++) {
                 System.out.println(list.get(i).number+" : "+list.get(i).menuText);
             }
         }
-        else if(chooseLanguage.equalsIgnoreCase("ru")){
+        else if(chooseLanguage.equalsIgnoreCase(RU)){
             for (int i = list.size() / 2; i < list.size()  ; i++) {
                     System.out.println(list.get(i).number+" : "+list.get(i).menuText);
             }

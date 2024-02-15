@@ -1,8 +1,12 @@
 package com.analyzer;
 
 
+import static com.constants.ConsoleMenuConsts.SPACE;
+import static com.constants.ConsoleMenuConsts.ZIRO;
+import static com.constants.ConsoleMenuConsts.TAB_N;
+import static com.constants.ConsoleMenuConsts.TAB_R;
 
-import com.exeption.AllExeptions;
+import com.exeption.EncoderExeption;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,18 +19,18 @@ public class CaesarCipher {
             'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '«', '»', '"', '\'', ':', '!', '?', ' ', '(', ')', '1', '2', '3', '4', '5', '6',
             '7', '8', '9', '0', '/', '—', '-'};
 
-    public StringBuilder statisticUncipherMethodSpace(String messageCiph) {
+    public StringBuilder statisticDeCryptWithSpace(String messageCiph) throws EncoderExeption {
         StringBuilder unCipherMessage;
         Map<Character, Integer> checkFrequencies = new HashMap<>();
-        for (char c : ALPHABET) {
-            checkFrequencies.put(c, 0);
+        for (char chars : ALPHABET) {
+            checkFrequencies.put(chars, ZIRO);
         }
         Map<Character, Integer> copyCheckFrequencies = new HashMap<>(checkFrequencies);
         char[] charsCiph = messageCiph.toCharArray();
         for (Map.Entry<Character, Integer> characterFloatEntry : copyCheckFrequencies.entrySet()) {
-            int counter = 0;
+            int counter = ZIRO;
             for (char c : charsCiph) {
-                if (c == '\n' || c == '\r') {
+                if (c == TAB_N || c == TAB_R) {
                     continue;
                 }
                 if (characterFloatEntry.getKey() == c) {
@@ -36,46 +40,41 @@ public class CaesarCipher {
             }
         }
         int letterFrequencyMax = Collections.max(checkFrequencies.values(), (o1, o2) -> o1.compareTo(o2));
-        char letterKey = 0;
+        char letterKey = ZIRO;
         for (Map.Entry<Character, Integer> characterFloatEntry : checkFrequencies.entrySet()) {
             if (characterFloatEntry.getValue() == letterFrequencyMax) {
                 letterKey = characterFloatEntry.getKey();
             }
         }
-        int indexSpaceInOurAlphabet=getIndex(' ');
+        int indexSpaceInOurAlphabet = getIndex(SPACE);
         int indexCipherSpace = getIndex(letterKey);
-        int difference=indexSpaceInOurAlphabet- indexCipherSpace;
-        unCipherMessage=toCipher(messageCiph,difference);
+        int difference = indexSpaceInOurAlphabet - indexCipherSpace;
+        unCipherMessage = toEncrypt(messageCiph, difference);
 
 
-        return  unCipherMessage;
+        return unCipherMessage;
     }
 
 
-
-    public StringBuilder toCipher(String message, int key) {
-        key=checKey(key);
-        if (key==0){
-            try {
-                throw new AllExeptions("You can't use key = 0 or key, which has size of your alphabet = " + ALPHABET.length);
-            } catch (AllExeptions e) {
-                throw new RuntimeException(e);
-            }
+    public StringBuilder toEncrypt(String message, int key) throws EncoderExeption {
+        key = checKey(key);
+        if (key == ZIRO) {
+                throw new EncoderExeption("You can't use key = 0 or key, which has size of your alphabet = " + ALPHABET.length);
         }
 
         char[] charsFromMessage = message.toLowerCase().toCharArray();
         StringBuilder messageCipher = new StringBuilder();
-        for (int i = 0; i < charsFromMessage.length; i++) {
-            if (charsFromMessage[i] == '\n') {
-                messageCipher.append('\n');
-            } else if (charsFromMessage[i] == '\r') {
-                messageCipher.append('\r');
+        for (int i = ZIRO; i < charsFromMessage.length; i++) {
+            if (charsFromMessage[i] == TAB_N) {
+                messageCipher.append(TAB_N);
+            } else if (charsFromMessage[i] == TAB_R) {
+                messageCipher.append(TAB_R);
             } else if (checkLetter(charsFromMessage[i])) {
 
                 try {
-                    throw new AllExeptions("The letter/symbol: " + "'" + charsFromMessage[i] + "'" + ", number of this letter/symbol = "
+                    throw new EncoderExeption("The letter/symbol: " + "'" + charsFromMessage[i] + "'" + ", number of this letter/symbol = "
                             + (i + 1) + " is not involved in ALPHABET array");
-                } catch (AllExeptions e) {
+                } catch (EncoderExeption e) {
                     throw new RuntimeException(e);
                 }
 
@@ -87,27 +86,27 @@ public class CaesarCipher {
         return messageCipher;
     }
 
-    public StringBuilder toUnCipher(String messageCipher, int key) {
-        key=checKey(key);
-        if (key==0){
+    public StringBuilder toDeCrypt(String messageCipher, int key) {
+        key = checKey(key);
+        if (key == ZIRO) {
             try {
-                throw new AllExeptions("You can't use key = 0 or key = |n*"+ALPHABET.length+"/"+ALPHABET.length+"-n|, which has size of your alphabet = " + ALPHABET.length);
-            } catch (AllExeptions e) {
+                throw new EncoderExeption("You can't use key = 0 or key = |n*" + ALPHABET.length + "/" + ALPHABET.length + "-n|, which has size of your alphabet = " + ALPHABET.length);
+            } catch (EncoderExeption e) {
                 throw new RuntimeException(e);
             }
         }
         char[] charsFromMessage = messageCipher.toLowerCase().toCharArray();
         StringBuilder messageUnCipher = new StringBuilder();
-        for (int i = 0; i < charsFromMessage.length; i++) {
-            if (charsFromMessage[i] == '\n') {
-                messageUnCipher.append('\n');
-            } else if (charsFromMessage[i] == '\r') {
-                messageUnCipher.append('\r');
+        for (int i = ZIRO; i < charsFromMessage.length; i++) {
+            if (charsFromMessage[i] == TAB_N) {
+                messageUnCipher.append(TAB_N);
+            } else if (charsFromMessage[i] == TAB_R) {
+                messageUnCipher.append(TAB_R);
             } else if (checkLetter(charsFromMessage[i])) {
                 try {
-                    throw new AllExeptions("The letter/symbol: " + "'" + charsFromMessage[i] + "'" + ", number of this letter/symbol = "
+                    throw new EncoderExeption("The letter/symbol: " + "'" + charsFromMessage[i] + "'" + ", number of this letter/symbol = "
                             + (i + 1) + " is not involved in ALPHABET array");
-                } catch (AllExeptions e) {
+                } catch (EncoderExeption e) {
                     throw new RuntimeException(e);
                 }
             } else {
@@ -124,49 +123,42 @@ public class CaesarCipher {
         }
         return messageUnCipher;
     }
-    public Map<Integer, StringBuilder> toUnCipherWithComma(String messageCipher) {
+
+    public Map<Integer, StringBuilder> toDeCryptWithComma(String messageCipher) {
         char checkComma = ',';
-        int counter = 0;
-        int key = 0;
+        int counter = ZIRO;
+        int key = ZIRO;
         for (int i = 1; i < ALPHABET.length - 1; i++) {
-            char[] checkChars = toUnCipher(messageCipher, i).toString().toCharArray();
-            int counter2 = 0;
-            for (int i1 = 0; i1 < checkChars.length - 3; i1++) {
-                boolean a = ((checkChars[i1] != ' ') && (checkChars[i1] != checkComma) && (checkChars[i1] != '.') && (checkChars[i1] != '!')
-                        && (checkChars[i1] != '?') && (checkChars[i1] != ':') && (checkChars[i1] != ';') && (checkChars[i1] != '-')
-                        && (checkChars[i1] != '—'));
-                boolean b = (checkChars[i1 + 1] == checkComma);
-                boolean c = (checkChars[i1 + 2] == ' ');
-                if (a && b && c) {
-                    counter2++;
-                }
-            }
+            char[] checkChars = toDeCrypt(messageCipher, i).toString().toCharArray();
+            int counter2 = ZIRO;
+            counter2 = conditionOfComma(checkChars, checkComma, counter2);
             if (counter < counter2) {
                 counter = counter2;
                 key = i;
             }
         }
         Map<Integer, StringBuilder> unCiphMap = new HashMap<>();
-        unCiphMap.put(key, toUnCipher(messageCipher, key));
+        unCiphMap.put(key, toDeCrypt(messageCipher, key));
 
         return unCiphMap;
     }
 
-    public int getKeyFromCipherText(String text, String fileWithUnChiperText) {
+
+    public int getKeyFromEncryptText(String text, String fileWithUnChiperText) {
         if (text.length() != fileWithUnChiperText.length()) {
             int quantityOfLetters = Math.max(text.length(), fileWithUnChiperText.length());
             String number = text.length() > fileWithUnChiperText.length() ? "first text" : "second text";
             try {
-                throw new AllExeptions("The quantity of letters aren't coincidenced: " + number + " = "
+                throw new EncoderExeption("The quantity of letters aren't coincidenced: " + number + " = "
                         + quantityOfLetters + " more than " + (Math.abs(text.length() - fileWithUnChiperText.length())));
-            } catch (AllExeptions e) {
+            } catch (EncoderExeption e) {
                 throw new RuntimeException(e);
             }
         }
-        int key = 0;
+        int key = ZIRO;
         StringBuilder textToUnCipher;
         for (int i = 1; i < ALPHABET.length; i++) {
-            textToUnCipher = toUnCipher(fileWithUnChiperText, i);
+            textToUnCipher = toDeCrypt(fileWithUnChiperText, i);
             if (textToUnCipher.toString().equalsIgnoreCase(text)) {
                 key = i;
                 break;
@@ -177,8 +169,8 @@ public class CaesarCipher {
 
 
     private int getIndex(char letter) {
-        int indexLetter = 0;
-        for (int i = 0; i < ALPHABET.length; i++) {
+        int indexLetter = ZIRO;
+        for (int i = ZIRO; i < ALPHABET.length; i++) {
             if (letter == ALPHABET[i]) {
                 indexLetter = i;
             }
@@ -188,36 +180,50 @@ public class CaesarCipher {
 
     private boolean checkLetter(char letter) {
         boolean law = false;
-        for (char c : ALPHABET) {
-            if (letter == c) {
+        for (char chars : ALPHABET) {
+            if (letter == chars) {
                 law = true;
                 break;
             }
         }
         return !law;
     }
-    private int checKey(int key){
-        if(key==0 || key==ALPHABET.length ||key==-ALPHABET.length){
-            return 0;
-        }
-        else if (key>0 ){
-            if(key>ALPHABET.length){
-                key%=ALPHABET.length;
+
+    private int checKey(int key) {
+        if (key == ZIRO || key == ALPHABET.length || key == -ALPHABET.length) {
+            return ZIRO;
+        } else if (key > ZIRO) {
+            if (key > ALPHABET.length) {
+                key %= ALPHABET.length;
             }
         } else {
-            if((-key)>ALPHABET.length){
-                key%=ALPHABET.length;
-                if (key==0){
-                    return 0;
+            if ((-key) > ALPHABET.length) {
+                key %= ALPHABET.length;
+                if (key == ZIRO) {
+                    return ZIRO;
                 }
-                key+=ALPHABET.length;
+                key += ALPHABET.length;
 
-            } else if ((-key)<ALPHABET.length) {
-                key+=ALPHABET.length;
+            } else if ((-key) < ALPHABET.length) {
+                key += ALPHABET.length;
 
             }
 
         }
-        return  key;
+        return key;
+    }
+
+    private static int conditionOfComma(char[] checkChars, char checkComma, int counter2) {
+        for (int i1 = ZIRO; i1 < checkChars.length - 3; i1++) {
+            boolean a = ((checkChars[i1] != SPACE) && (checkChars[i1] != checkComma) && (checkChars[i1] != '.') && (checkChars[i1] != '!')
+                    && (checkChars[i1] != '?') && (checkChars[i1] != ':') && (checkChars[i1] != ';') && (checkChars[i1] != '-')
+                    && (checkChars[i1] != '—'));
+            boolean b = (checkChars[i1 + 1] == checkComma);
+            boolean c = (checkChars[i1 + 2] == SPACE);
+            if (a && b && c) {
+                counter2++;
+            }
+        }
+        return counter2;
     }
 }
