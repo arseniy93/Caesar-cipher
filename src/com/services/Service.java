@@ -20,10 +20,10 @@ import static com.constants.ConsoleMenuConsts.EN;
 public class Service {
 
     public void runService() throws EncoderExeption, FileExeption {
-        System.out.println("Choose a language / Выберите язык" + "\n" + EN+"/"+ RU);
+        System.out.println("Choose a language / Выберите язык" + "\n" + EN + "/" + RU);
         String language = Menu.printChooseMenu(scanString());
         int chooseMenu = Menu.chooseOption(language, new Scanner(System.in).nextInt());
-        while(chooseMenu==0){
+        while (chooseMenu == 0) {
             chooseMenu = Menu.chooseOption(language, new Scanner(System.in).nextInt());
         }
         CaesarCipher caesarCipher = new CaesarCipher();
@@ -46,10 +46,12 @@ public class Service {
             case 5 -> funcCase(language, caesarCipher, workWithFile, 5);
 
 
-
         }
     }
 
+    /**
+     * method of repeatAction is refreshed main menu
+     */
     private void repeatAction(String language) throws EncoderExeption, FileExeption {
         Service service = new Service();
         if (translator(language)) {
@@ -128,20 +130,20 @@ public class Service {
     private void case2(String language, CaesarCipher caesarCipher, WorkWithFile workWithFile, String loadFile) throws FileExeption {
         StringBuilder stringBuilder;
         enterKey(language);
-        int key =scanInt();
+        int key = scanInt();
         stringBuilder = caesarCipher.toDeCrypt(workWithFile.loadTextOfFile(loadFile + FORMAT_FILE), key);
         nameOfFileSave(language);
-        String saveFile =scanString();
+        String saveFile = scanString();
         workWithFile.createFileWriteToText(stringBuilder, (saveFile + FORMAT_FILE));
     }
 
     private void case1(String language, CaesarCipher caesarCipher, WorkWithFile workWithFile, String loadFile) throws EncoderExeption, FileExeption {
         StringBuilder stringBuilder;
         enterKey(language);
-        int key =scanInt();
+        int key = scanInt();
         stringBuilder = caesarCipher.toEncrypt(workWithFile.loadTextOfFile(loadFile + FORMAT_FILE), key);
         nameOfFileSave(language);
-        String saveFile =scanString();
+        String saveFile = scanString();
         workWithFile.createFileWriteToText(stringBuilder, (saveFile + FORMAT_FILE));
     }
 
@@ -155,13 +157,14 @@ public class Service {
 
         repeatAction(language);
     }
-    private String scanString(){
+
+    private String scanString() {
         return new Scanner(System.in).nextLine();
     }
-    private int scanInt(){
+
+    private int scanInt() {
         return new Scanner(System.in).nextInt();
     }
-    
 
 
 }

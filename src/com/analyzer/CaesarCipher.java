@@ -19,7 +19,14 @@ public class CaesarCipher {
             'ъ', 'ы', 'ь', 'э', 'ю', 'я', '.', ',', '«', '»', '"', '\'', ':', '!', '?', ' ', '(', ')', '1', '2', '3', '4', '5', '6',
             '7', '8', '9', '0', '/', '—', '-'};
 
+    /**
+     * This method is found space and decrypt using by algorithm , after select key
+     * @param messageCiph
+     * @return message
+     * @throws EncoderExeption
+     */
     public StringBuilder statisticDeCryptWithSpace(String messageCiph) throws EncoderExeption {
+
         StringBuilder unCipherMessage;
         Map<Character, Integer> checkFrequencies = new HashMap<>();
         for (char chars : ALPHABET) {
@@ -56,6 +63,13 @@ public class CaesarCipher {
     }
 
 
+    /**
+     * This method returns encrypted  text  using by key
+     * @param message
+     * @param key
+     * @return messageChip
+     * @throws EncoderExeption
+     */
     public StringBuilder toEncrypt(String message, int key) throws EncoderExeption {
         key = checKey(key);
         if (key == ZIRO) {
@@ -86,6 +100,12 @@ public class CaesarCipher {
         return messageCipher;
     }
 
+    /**
+     * * This method returns dencrypted  text  using by key
+     * @param messageCipher
+     * @param key
+     * @return message
+     */
     public StringBuilder toDeCrypt(String messageCipher, int key) {
         key = checKey(key);
         if (key == ZIRO) {
@@ -124,6 +144,11 @@ public class CaesarCipher {
         return messageUnCipher;
     }
 
+    /**
+     * This method is found comma and decrypt using by algorithm , after select key and return text
+     * @param messageCipher
+     * @return message
+     */
     public Map<Integer, StringBuilder> toDeCryptWithComma(String messageCipher) {
         char checkComma = ',';
         int counter = ZIRO;
@@ -144,6 +169,12 @@ public class CaesarCipher {
     }
 
 
+    /**
+     * This method compare encrypted abd decrypted text and returns key
+     * @param text
+     * @param fileWithUnChiperText
+     * @return key
+     */
     public int getKeyFromEncryptText(String text, String fileWithUnChiperText) {
         if (text.length() != fileWithUnChiperText.length()) {
             int quantityOfLetters = Math.max(text.length(), fileWithUnChiperText.length());
